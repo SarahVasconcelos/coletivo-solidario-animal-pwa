@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="manifest" href="/manifest.json">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel - Coletivo Solidário Animal</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        /* Header Inspirado no Canva */
+        .header-app {
+            background-color: #4A55A2;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header-app h1 {
+            font-size: 18px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .user-info {
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .btn-sair {
+            background-color: white;
+            color: #4A55A2;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        /* Botão Novo Cadastro de Animal (Padrão Verde Canva) */
+        .btn-novo {
+            background-color: #00C853;
+            color: white;
+            text-align: center;
+            padding: 14px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            display: block;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,200,83,0.2);
+            min-height: 44px;
+            box-sizing: border-box;
+        }
+        .btn-novo:hover {
+            background-color: #00b048;
+        }
+        /* Barra de Pesquisa */
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            font-size: 15px;
+            box-sizing: border-box;
+            outline: none;
+            background: #fff;
+            min-height: 44px;
+        }
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+        /* Cards de Animais */
+        .animal-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border: 1px solid #e0e0e0;
+            position: relative;
+        }
+        .animal-img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            background-color: #eee;
+            flex-shrink: 0;
+        }
+        .animal-details {
+            flex-grow: 1;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .animal-details p {
+            margin: 3px 0;
+        }
+        /* Badges de Status inspiradas no protótipo */
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            float: right;
+        }
+        .badge-disponivel { background-color: #C8E6C9; color: #2e7d32; }
+        .badge-tratamento { background-color: #FFF9C4; color: #f57f17; }
+        .badge-adotado { background-color: #FFCDD2; color: #c62828; }
+
+        /* Ações no Card */
+        .card-actions {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 8px;
+        }
+        .card-actions a {
+            font-size: 13px;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 6px 10px;
+            border-radius: 6px;
+            min-height: 32px;
+            display: inline-flex;
+            align-items: center;
+        }
+        .action-termo { color: #2e7d32; background: #e8f5e9; }
+        .action-editar { color: #1565c0; background: #e3f2fd; }
+        .action-excluir { color: #c62828; background: #ffebee; }
+    </style>
+</head>
+<body>
+
+    <div class="header-app">
+        <h1>🐾 Coletivo Solidário Animal</h1>
+        <div class="user-info">
+            <span>{{ usuario }}</span>
+            <a href="{{ url_for('logout') }}" class="btn-sair">Sair</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Botão principal de cadastro com padrão visual verde -->
+        <a href="{{ url_for('cadastro') }}" class="btn-novo">+ Novo Cadastro de Animal</a>
+
+        <!-- Barra de Pesquisa em Tempo Real -->
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Pesquisar por nome, espécie ou bairro..." onkeyup="filtrarAnimais()">
+        </div>
+
+        <div id="listaAnimais">
+            {% for a in animais %}
+            <div class="animal-card" data-nome="{{ a[1]|lower }}" data-especie="{{ a[2]|lower }}" data-bairro="{{ a[6]|lower if a[6] else '' }}">
+                {% if a[7] %}
+                    <img src="{{ url_for('static', filename='uploads/' + a[7]) }}" class="animal-img" alt="Foto de {{ a[1] }}">
+                {% else %}
+                    <div class="animal-img" style="display:flex;align-items:center;justify-content:center;font-size:12px;color:#666;">Sem Foto</div>
+                {% endif %}
+
+                <div class="animal-details">
+                    {% if a[4] == 'Adotado' %}
+                        <span class="badge badge-adotado">● Adotado</span>
+                    {% elif a[4] == 'Em Tratamento' %}
+                        <span class="badge badge-tratamento">● Em Tratamento</span>
+                    {% else %}
+                        <span class="badge badge-disponivel">● Disponível</span>
+                    {% endif %}
+
+                    <p><strong>Nome:</strong> {{ a[1] }}</p>
+                    <p><strong>Espécie:</strong> {{ a[2] }} | <strong>Sexo:</strong> {{ a[9] if a[9] else 'Não inf.' }}</p>
+                    <p><strong>Porte:</strong> {{ a[8] if a[8] else 'Não inf.' }} | <strong>Idade:</strong> {{ a[10] if a[10] else 'Não inf.' }}</p>
+                    <p><strong>Local (LT):</strong> {{ a[5] ~ ' (' ~ a[6] + ')' if a[5] else 'Nenhum' }}</p>
+
+                    <div class="card-actions">
+                        <a href="{{ url_for('gerar_termo', id=a[0]) }}" target="_blank" class="action-termo">📄 Termo PDF</a>
+                        <a href="{{ url_for('editar', id=a[0]) }}" class="action-editar">✏️ Editar</a>
+                        <a href="{{ url_for('excluir', id=a[0]) }}" onclick="return confirm('Deseja realmente excluir o cadastro de {{ a[1] }}?');" class="action-excluir">🗑️ Excluir</a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <p style="text-align: center; color: #666; padding: 30px;">Nenhum animal cadastrado no momento.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Script de Filtro em Tempo Real -->
+    <script>
+        function filtrarAnimais() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.getElementsByClassName('animal-card');
+
+            for (let i = 0; i < cards.length; i++) {
+                let nome = cards[i].getAttribute('data-nome');
+                let especie = cards[i].getAttribute('data-especie');
+                let bairro = cards[i].getAttribute('data-bairro');
+
+                if (nome.includes(input) || especie.includes(input) || bairro.includes(input)) {
+                    cards[i].style.display = "";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

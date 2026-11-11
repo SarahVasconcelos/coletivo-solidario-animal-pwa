@@ -1,0 +1,23 @@
+[
+  "test_app.py::test_cadastrar_animal_flow",
+  "test_app.py::test_cadastrar_page",
+  "test_app.py::test_fluxo_crud_animal",
+  "test_app.py::test_home_route",
+  "test_app.py::test_index_redirect",
+  "test_app.py::test_index_route",
+  "test_app.py::test_login_flow",
+  "test_app.py::test_login_page",
+  "test_app.py::test_login_sucesso_e_falha",
+  "test_app.py::test_logout",
+  "test_app.py::test_logout_route",
+  "test_app.py::test_manifest_and_static",
+  "test_app.py::test_manifest_json",
+  "test_app.py::test_manifest_route",
+  "test_app.py::test_painel_acesso",
+  "test_app.py::test_painel_protegido",
+  "test_app.py::test_painel_protegido_e_aberto",
+  "test_app.py::test_painel_security",
+  "test_app.py::test_rota_alternativa",
+  "test_app.py::test_static_files",
+  "test_app.py::test_termo_animal_inexistente"
+]

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Animal - Coletivo Solidário Animal</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .header-app {
+            background-color: #4A55A2;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header-app h1 {
+            font-size: 18px;
+            margin: 0;
+        }
+        .btn-sair {
+            background-color: white;
+            color: #4A55A2;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #e0e0e0;
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-top: 0;
+            font-size: 22px;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: #444;
+        }
+        input[type="text"], select, textarea, input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+            background: #fff;
+            outline: none;
+            min-height: 44px; /* Acessibilidade toque */
+        }
+        textarea {
+            resize: vertical;
+            height: 90px;
+        }
+        .btn-salvar {
+            background-color: #00C853;
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            min-height: 44px;
+            box-shadow: 0 4px 6px rgba(0,200,83,0.2);
+            margin-top: 10px;
+        }
+        .btn-salvar:hover {
+            background-color: #00b048;
+        }
+        .btn-voltar {
+            display: block;
+            text-align: center;
+            background-color: #e0e0e0;
+            color: #333;
+            padding: 14px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+            min-height: 44px;
+            box-sizing: border-box;
+        }
+        .btn-voltar:hover {
+            background-color: #d0d0d0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-app">
+        <h1>🐾 Coletivo Solidário Animal</h1>
+        <a href="{{ url_for('logout') }}" class="btn-sair">Sair</a>
+    </div>
+
+    <div class="container">
+        <h2>Cadastrar Novo Animal</h2>
+        
+        <form action="{{ url_for('cadastro') }}" method="POST" enctype="multipart/form-data">
+            
+            <div class="form-group">
+                <label>Nome do Animal*</label>
+                <input type="text" name="nome" required placeholder="Ex: Zezinho">
+            </div>
+
+            <div class="form-group">
+                <label>Espécie*</label>
+                <select name="especie" required>
+                    <option value="" disabled selected>Selecione</option>
+                    <option value="Cão">Cão</option>
+                    <option value="Gato">Gato</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Porte*</label>
+                <select name="porte" required>
+                    <option value="" disabled selected>Selecione</option>
+                    <option value="Pequeno">Pequeno</option>
+                    <option value="Médio">Médio</option>
+                    <option value="Grande">Grande</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Sexo</label>
+                <select name="sexo">
+                    <option value="" disabled selected>Selecione</option>
+                    <option value="Macho">Macho</option>
+                    <option value="Fêmea">Fêmea</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Idade Aproximada (anos/meses)</label>
+                <input type="text" name="idade" placeholder="Ex: 2 anos">
+            </div>
+
+            <div class="form-group">
+                <label>Lar Temporário (LT)*</label>
+                <select name="id_lar" required>
+                    <option value="" disabled selected>Selecione um LT disponível</option>
+                    {% for lar in lares %}
+                        <option value="{{ lar[0] }}">{{ lar[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Status de Saúde*</label>
+                <input type="text" name="status_saude" required placeholder="Ex: Saudável, em tratamento...">
+            </div>
+
+            <div class="form-group">
+                <label>Observações Clínicas</label>
+                <textarea name="observacoes" placeholder="Detalhes adicionais de saúde ou comportamento..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Status de Castração*</label>
+                <select name="status_castracao" required>
+                    <option value="Castrado(a)">Castrado(a)</option>
+                    <option value="Não Castrado(a)">Não Castrado(a)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Status de Vacinação*</label>
+                <select name="status_vacinacao" required>
+                    <option value="Vacinado(a)">Vacinado(a)</option>
+                    <option value="Parcialmente Vacinado(a)">Parcialmente Vacinado(a)</option>
+                    <option value="Não Vacinado(a)">Não Vacinado(a)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Status de Adoção*</label>
+                <select name="status_adocao" required>
+                    <option value="Disponível para Adoção" selected>Disponível para Adoção</option>
+                    <option value="Adotado">Adotado</option>
+                    <option value="Em Tratamento">Em Tratamento</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Foto do Animal</label>
+                <input type="file" name="foto" accept="image/*">
+            </div>
+
+            <button type="submit" class="btn-salvar">Salvar Registro</button>
+            <a href="{{ url_for('painel') }}" class="btn-voltar">Cancelar / Voltar</a>
+        </form>
+    </div>
+</body>
+</html>

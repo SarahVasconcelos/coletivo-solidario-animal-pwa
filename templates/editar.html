@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Animal - Coletivo Solidário Animal</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f9f9f9; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 8px; border: 1px solid #ccc; }
+        h2 { color: #4A55A2; text-align: center; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        input[type="text"], select, textarea { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        textarea { resize: vertical; height: 80px; }
+        .btn-salvar { background-color: #28a745; color: white; border: none; padding: 12px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold; }
+        .btn-voltar { display: block; text-align: center; margin-top: 15px; color: #666; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Editar Cadastro de Animal</h2>
+        
+        <form action="{{ url_for('editar', id=animal[0]) }}" method="POST" enctype="multipart/form-data">
+            
+            <div class="form-group">
+                <label>Nome do Animal:</label>
+                <input type="text" name="nome" value="{{ animal[1] }}" required>
+            </div>
+
+            <div class="form-group">
+                <label>Espécie:</label>
+                <select name="especie" required>
+                    <option value="Cão" {% if animal[2] == 'Cão' %}selected{% endif %}>Cão</option>
+                    <option value="Gato" {% if animal[2] == 'Gato' %}selected{% endif %}>Gato</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Porte:</label>
+                <select name="porte" required>
+                    <option value="Pequeno" {% if animal[3] == 'Pequeno' %}selected{% endif %}>Pequeno</option>
+                    <option value="Médio" {% if animal[3] == 'Médio' %}selected{% endif %}>Médio</option>
+                    <option value="Grande" {% if animal[3] == 'Grande' %}selected{% endif %}>Grande</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Sexo:</label>
+                <select name="sexo">
+                    <option value="Macho" {% if animal[4] == 'Macho' %}selected{% endif %}>Macho</option>
+                    <option value="Fêmea" {% if animal[4] == 'Fêmea' %}selected{% endif %}>Fêmea</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Idade Aproximada:</label>
+                <input type="text" name="idade" value="{{ animal[5] }}">
+            </div>
+
+            <div class="form-group">
+                <label>Status de Saúde:</label>
+                <input type="text" name="status_saude" value="{{ animal[6] }}" required>
+            </div>
+
+            <div class="form-group">
+                <label>Observações Clínicas:</label>
+                <textarea name="observacoes">{{ animal[7] }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Castração:</label>
+                <select name="status_castracao" required>
+                    <option value="Castrado(a)" {% if animal[8] == 'Castrado(a)' %}selected{% endif %}>Castrado(a)</option>
+                    <option value="Não Castrado(a)" {% if animal[8] == 'Não Castrado(a)' %}selected{% endif %}>Não Castrado(a)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Vacinação:</label>
+                <select name="status_vacinacao" required>
+                    <option value="Vacinado(a)" {% if animal[9] == 'Vacinado(a)' %}selected{% endif %}>Vacinado(a)</option>
+                    <option value="Parcialmente Vacinado(a)" {% if animal[9] == 'Parcialmente Vacinado(a)' %}selected{% endif %}>Parcialmente Vacinado(a)</option>
+                    <option value="Não Vacinado(a)" {% if animal[9] == 'Não Vacinado(a)' %}selected{% endif %}>Não Vacinado(a)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Status de Adoção:</label>
+                <select name="status_adocao" required>
+                    <option value="Disponível para Adoção" {% if animal[10] == 'Disponível para Adoção' %}selected{% endif %}>Disponível para Adoção</option>
+                    <option value="Adotado" {% if animal[10] == 'Adotado' %}selected{% endif %}>Adotado</option>
+                    <option value="Em Tratamento" {% if animal[10] == 'Em Tratamento' %}selected{% endif %}>Em Tratamento</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Lar Temporário (LT):</label>
+                <select name="id_lar" required>
+                    {% for lar in lares %}
+                        <option value="{{ lar[0] }}" {% if animal[11] == lar[0] %}selected{% endif %}>{{ lar[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Foto Atual do Animal:</label>
+                {% if animal[12] %}
+                    <p><img src="{{ url_for('static', filename='uploads/' + animal[12]) }}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 6px;"></p>
+                    <input type="hidden" name="foto_atual" value="{{ animal[12] }}">
+                {% else %}
+                    <p>Nenhuma foto cadastrada.</p>
+                    <input type="hidden" name="foto_atual" value="">
+                {% endif %}
+                <label>Trocar Foto (Opcional):</label>
+                <input type="file" name="foto" accept="image/*">
+            </div>
+
+            <button type="submit" class="btn-salvar">Salvar Alterações</button>
+        </form>
+
+        <a href="{{ url_for('painel') }}" class="btn-voltar">← Voltar ao Painel</a>
+    </div>
+</body>
+</html>

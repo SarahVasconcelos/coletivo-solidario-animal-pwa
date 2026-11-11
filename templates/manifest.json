@@ -1,0 +1,15 @@
+{
+  "name": "Coletivo Solidário Animal",
+  "short_name": "Coletivo Animal",
+  "start_url": "/painel",
+  "display": "standalone",
+  "background_color": "#4A55A2",
+  "theme_color": "#4A55A2",
+  "icons": [
+    {
+      "src": "/static/uploads/icone.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Termo de Adoção e Responsabilidade - {{ animal[0] }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            line-height: 1.3;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #4A55A2;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            color: #4A55A2;
+            margin: 0;
+            font-size: 22px;
+        }
+        .animal-card {
+            display: flex;
+            gap: 20px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 6px;
+            background-color: #fafafa;
+            margin-bottom: 20px;
+        }
+        .animal-foto {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        .animal-info p {
+            margin: 4px 0;
+            font-size: 14px;
+        }
+        .clausulas {
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+        .clausulas ol {
+            padding-left: 20px;
+        }
+        .clausulas li {
+            margin-bottom: 5px;
+        }
+        .alerta-legal {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 10px;
+            font-size: 11px;
+            border-radius: 4px;
+            margin-bottom: 25px;
+        }
+        .campos-adotante {
+            border-top: 1px dashed #666;
+            padding-top: 15px;
+            font-size: 13px;
+        }
+        .linha-campo {
+            margin-bottom: 12px;
+        }
+        .pontilhado {
+            border-bottom: 1px dotted #000;
+            display: inline-block;
+            width: 70%;
+        }
+        .botoes {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .btn-imprimir {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Estilos exclusivos para quando for Imprimir ou Salvar PDF */
+        @media print {
+            .botoes { display: none; }
+            body { background: #fff; margin: 0; }
+            .container { border: none; padding: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="botoes">
+        <button onclick="window.print()" class="btn-imprimir">🖨️ Imprimir / Salvar em PDF</button>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Coletivo Solidário Animal</h1>
+            <h3>Termo de Adoção e Responsabilidade</h3>
+        </div>
+
+        <div class="animal-card">
+            {% if animal[10] %}
+                <img src="{{ url_for('static', filename='uploads/' + animal[10]) }}" class="animal-foto" alt="Foto de {{ animal[0] }}">
+            {% else %}
+                <div class="animal-foto" style="display:flex;align-items:center;justify-content:center;background:#eee;">Sem foto</div>
+            {% endif %}
+
+            <div class="animal-info">
+                <p><strong>Nome:</strong> {{ animal[0] }}</p>
+                <p><strong>Espécie:</strong> {{ animal[1] }} | <strong>Sexo:</strong> {{ animal[3] }}</p>
+                <p><strong>Idade Aproximada:</strong> {{ animal[4] }}</p>
+                <p><strong>Local / LT:</strong> {{ animal[11] }} ({{ animal[12] }})</p>
+                <p><strong>Status de Saúde:</strong> {{ animal[5] }}</p>
+                <p><strong>Vacinação:</strong> {{ animal[7] }} | <strong>Castração:</strong> {{ animal[8] }}</p>
+            </div>
+        </div>
+
+        <div class="clausulas">
+            <h4>Cláusulas de Responsabilidade:</h4>
+            <ol>
+                <li>Garantir o bem-estar deste animal, respeitando suas características e zelando pelas suas necessidades psicológicas e físicas;</li>
+                <li>Garantir sua saúde física fornecendo abrigo, alimento adequado, higiene, vacinas e levando-o regularmente ao veterinário;</li>
+                <li>Garantir sua saúde psicológica respeitando suas características e fornecendo atenção, carinho e a possibilidade de interagir;</li>
+                <li>Garantir sua segurança, mantendo-o sempre dentro de casa e fazendo passeios com coleira e guia (no caso de cães);</li>
+                <li>Em caso de gatos, mantê-lo em local seguro sem acesso à rua, onde pode correr inúmeros perigos;</li>
+                <li>Mantê-lo em ambiente limpo, arejado e espaçoso, com possibilidade de abrigo do sol ou chuva;</li>
+                <li>Não mantê-lo preso em espaços pequenos ou em correntes;</li>
+                <li>Identificá-lo com plaquinha ou microchip, tornando mais fácil recuperá-lo caso ele se perca;</li>
+                <li>Comprometer-se com a castração do animal (caso ainda não seja castrado);</li>
+                <li>NUNCA e em nenhuma circunstância abandoná-lo na rua ou entregá-lo a um desconhecido;</li>
+                <li>Devolvê-lo ao protetor responsável pela adoção se houver desistência;</li>
+                <li>Manter informado o protetor quando forem cumpridos os principais pontos como castração ou mudança de residência;</li>
+                <li>Comunicar qualquer outro destino que envolva o animal, tais como desaparecimento ou morte;</li>
+                <li>Permitir a visita do protetor responsável pela adoção até a completa adaptação do animal (6 meses).</li>
+            </ol>
+        </div>
+
+        <div class="alerta-legal">
+            <strong>Estou ciente de que:</strong>
+            <ul>
+                <li>Um cão ou gato pode viver até 15 anos ou mais, e durante todo este tempo serei responsável pelo seu bem-estar;</li>
+                <li>O não cumprimento dos itens acima poderá ser interpretado como maus-tratos, o que acarretará denúncia legal e a retirada do animal a qualquer tempo;</li>
+                <li>Maus-tratos é crime sob a <strong>Lei Federal nº 9.605/1998 (art. 32)</strong>.</li>
+            </ul>
+        </div>
+
+        <div class="campos-adotante">
+            <div class="linha-campo"><strong>Nome do Adotante:</strong> <span class="pontilhado"></span></div>
+            <div class="linha-campo"><strong>CPF:</strong> <span class="pontilhado" style="width: 30%;"></span> <strong>RG:</strong> <span class="pontilhado" style="width: 30%;"></span></div>
+            <div class="linha-campo"><strong>Endereço Completo:</strong> <span class="pontilhado"></span></div>
+            <div class="linha-campo"><strong>Telefone / Celular:</strong> <span class="pontilhado"></span></div>
+            <br><br>
+            <div class="linha-campo" style="text-align: center;">
+                ____________________________________________________<br>
+                <strong>Assinatura do Adotante</strong>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

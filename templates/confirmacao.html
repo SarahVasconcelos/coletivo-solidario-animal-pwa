@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmação - Coletivo Solidário Animal</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .header-app {
+            background-color: #4A55A2;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-app h1 { font-size: 18px; margin: 0; }
+        .container {
+            max-width: 500px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border: 1px solid #e0e0e0;
+        }
+        .success-box {
+            background-color: #E8F5E9;
+            color: #2E7D32;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        p {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #555;
+        }
+        .btn-termo {
+            background-color: #00C853;
+            color: white;
+            padding: 14px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: bold;
+            display: block;
+            margin: 20px 0 10px 0;
+            min-height: 44px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 6px rgba(0,200,83,0.2);
+        }
+        .btn-termo:hover { background-color: #00b048; }
+        .btn-painel {
+            background-color: #e0e0e0;
+            color: #333;
+            padding: 14px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: bold;
+            display: block;
+            min-height: 44px;
+            box-sizing: border-box;
+        }
+        .btn-painel:hover { background-color: #d0d0d0; }
+    </style>
+</head>
+<body>
+
+    <div class="header-app">
+        <h1>🐾 Coletivo Solidário Animal</h1>
+    </div>
+
+    <div class="container">
+        <div class="success-box">
+            ✅ Registro Salvo com Sucesso!
+        </div>
+        
+        <p>O animal <strong>{{ animal[1] }}</strong> (Espécie: {{ animal[2] }}) foi registrado com o status de adoção: <strong>{{ animal[3] }}</strong>.</p>
+        
+        <p style="font-size: 13px; color: #666;">
+            O Termo de Adoção/Responsabilidade foi estruturado seguindo as diretrizes de minimização de dados da LGPD (dados do adotante mantidos em branco para preenchimento físico seguro).
+        </p>
+        
+        <a href="{{ url_for('gerar_termo', id=animal[0]) }}" target="_blank" class="btn-termo">📄 Gerar Termo de Adoção (PDF)</a>
+        
+        <a href="{{ url_for('painel') }}" class="btn-painel">Voltar ao Painel Principal</a>
+    </div>
+
+</body>
+</html>
