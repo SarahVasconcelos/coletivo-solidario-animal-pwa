@@ -1,10 +1,26 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <link rel="manifest" href="/manifest.json">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel - Coletivo Solidário Animal</title>
+
+    <!-- Configurações de PWA e Ícones -->
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/static/icone.png">
+    <link rel="icon" type="image/png" href="/static/icone.png">
+
+    <!-- Script de Registro do Service Worker -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('Service Worker registrado com sucesso:', reg))
+            .catch(err => console.error('Falha ao registrar o Service Worker:', err));
+        });
+      }
+    </script>
+
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -13,6 +29,7 @@
             padding: 0;
             color: #333;
         }
+        
         /* Header Inspirado no Canva */
         .header-app {
             background-color: #4A55A2;

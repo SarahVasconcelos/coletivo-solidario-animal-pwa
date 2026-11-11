@@ -130,26 +130,6 @@ def logout():
     session.clear()
     return redirect(url_for('login'))
 
-# Rota para o PWA Manifest (Conteúdo injetado diretamente)
-@app.route('/manifest.json')
-def manifest():
-    return {
-        "name": "Coletivo Solidario Animal",
-        "short_name": "Coletivo Animal",
-        "start_url": "/painel",
-        "display": "standalone",
-        "background_color": "#4A55A2",
-        "theme_color": "#4A55A2",
-        "icons": [
-            {
-                "src": "/static/uploads/icone.png",
-                "sizes": "256x256",
-                "type": "image/png"
-            }
-        ]
-    }
-
-
 # Tela 1: Painel Inicial (Listagem de Animais)
 @app.route('/painel')
 def painel():
@@ -246,7 +226,7 @@ def confirmacao(id):
     
     return render_template('confirmacao.html', animal=animal)
 
-# Rota para Geração do Termo de Adoção e Responsabilidade (Passo 3)
+# Rota para Geração do Termo de Adoção e Responsabilidade
 @app.route('/termo/<int:id>')
 def gerar_termo(id):
     if 'usuario_id' not in session:
@@ -349,6 +329,16 @@ def editar(id):
 
     return render_template('editar.html', animal=animal, lares=lares)
 
+# ==========================================
+# ROTAS DE CONFIGURAÇÃO PWA (Manifest e SW)
+# ==========================================
+@app.route('/manifest.json')
+def manifest():
+    return app.send_static_file('manifest.json')
+
+@app.route('/sw.js')
+def service_worker():
+    return app.send_static_file('sw.js')
+
 if __name__ == '__main__':
     app.run(debug=True)
-    

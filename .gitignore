@@ -1,0 +1,17 @@
+# Banco de dados local
+database.db
+
+# Ignorar fotos e arquivos enviados dentro de uploads, mas manter a pasta
+static/uploads/*
+!static/uploads/.gitkeep
+
+# Cache do Python e testes
+__pycache__/
+*.pyc
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
