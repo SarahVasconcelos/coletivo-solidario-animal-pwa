@@ -144,3 +144,4 @@ def test_logout(client):
     login_helper(client)
     res = client.get('/logout', follow_redirects=True)
     assert res.status_code == 200
+    
