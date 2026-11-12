@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Lar Temporário - Coletivo Solidário Animal</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h3 class="mb-4 text-center">Cadastrar Novo Lar Temporário</h3>
+                        <form method="POST">
+                            <div class="mb-3">
+                                <label for="nome_voluntario" class="form-label">Nome do Voluntário</label>
+                                <input type="text" class="form-control" id="nome_voluntario" name="nome_voluntario" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contato_telefone" class="form-label">Telefone de Contato</label>
+                                <input type="text" class="form-control" id="contato_telefone" name="contato_telefone" placeholder="(11) 99999-9999" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="endereco_bairro" class="form-label">Bairro / Região</label>
+                                <input type="text" class="form-control" id="endereco_bairro" name="endereco_bairro" placeholder="Ex: Capão Redondo" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="capacidade_maxima" class="form-label">Capacidade Máxima de Animais</label>
+                                <input type="number" class="form-control" id="capacidade_maxima" name="capacidade_maxima" min="1" value="2" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="status_disponibilidade" class="form-label">Status de Disponibilidade</label>
+                                <select class="form-select" id="status_disponibilidade" name="status_disponibilidade" required>
+                                    <option value="Disponível">Disponível</option>
+                                    <option value="Indisponível">Indisponível</option>
+                                </select>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-success">Salvar Lar Temporário</button>
+                                <a href="{{ url_for('painel') }}" class="btn btn-secondary">Voltar ao Painel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

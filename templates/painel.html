@@ -72,7 +72,7 @@
             margin: 20px auto;
             padding: 0 15px;
         }
-        /* Botão Novo Cadastro de Animal (Padrão Verde Canva) */
+        /* Botões de Ação Principais (Padrão Verde Canva) */
         .btn-novo {
             background-color: #00C853;
             color: white;
@@ -83,7 +83,7 @@
             font-weight: bold;
             font-size: 16px;
             display: block;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             box-shadow: 0 4px 6px rgba(0,200,83,0.2);
             min-height: 44px;
             box-sizing: border-box;
@@ -159,23 +159,43 @@
         .card-actions {
             margin-top: 10px;
             display: flex;
-            gap: 10px;
+            gap: 8px;
             border-top: 1px solid #f0f0f0;
             padding-top: 8px;
+            flex-wrap: wrap;
         }
         .card-actions a {
             font-size: 13px;
             text-decoration: none;
             font-weight: bold;
-            padding: 6px 10px;
+            padding: 6px 8px;
             border-radius: 6px;
             min-height: 32px;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
+            flex: 1;
+            text-align: center;
         }
         .action-termo { color: #2e7d32; background: #e8f5e9; }
         .action-editar { color: #1565c0; background: #e3f2fd; }
         .action-excluir { color: #c62828; background: #ffebee; }
+
+        /* Ajustes Responsivos para Dispositivos Móveis */
+        @media (max-width: 768px) {
+            .header-app h1 {
+                font-size: 15px !important;
+            }
+            .user-info {
+                font-size: 12px;
+                gap: 6px;
+            }
+            .btn-sair {
+                padding: 4px 10px;
+                min-height: 36px;
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -189,8 +209,11 @@
     </div>
 
     <div class="container">
-        <!-- Botão principal de cadastro com padrão visual verde -->
+        <!-- Botão principal de cadastro de animal -->
         <a href="{{ url_for('cadastro') }}" class="btn-novo">+ Novo Cadastro de Animal</a>
+        
+        <!-- Botão de Cadastro de Novo Lar Temporário (padronizado em verde) -->
+        <a href="{{ url_for('novo_lar') }}" class="btn-novo">+ Cadastrar Novo Lar Temporário</a>
 
         <!-- Barra de Pesquisa em Tempo Real -->
         <div class="search-box">

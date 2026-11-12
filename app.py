@@ -212,6 +212,35 @@ def cadastro():
             
     return render_template('cadastro.html', lares=lares)
 
+# ==========================================
+# NOVA ROTA: Cadastro de Novo Lar Temporário
+# ==========================================
+@app.route('/novo_lar', methods=['GET', 'POST'])
+def novo_lar():
+    if 'usuario_id' not in session:
+        return redirect(url_for('login'))
+        
+    if request.method == 'POST':
+        nome_voluntario = request.form['nome_voluntario']
+        contato_telefone = request.form['contato_telefone']
+        endereco_bairro = request.form['endereco_bairro']
+        capacidade_maxima = int(request.form['capacidade_maxima'])
+        status_disponibilidade = request.form['status_disponibilidade']
+        
+        conn = sqlite3.connect('database.db')
+        cursor = conn.cursor()
+        cursor.execute('''
+            INSERT INTO lar_temporario (nome_voluntario, contato_telefone, endereco_bairro, capacidade_maxima, status_disponibilidade)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (nome_voluntario, contato_telefone, endereco_bairro, capacidade_maxima, status_disponibilidade))
+        
+        conn.commit()
+        conn.close()
+        
+        return redirect(url_for('cadastro'))
+        
+    return render_template('novo_lar.html', usuario=session.get('usuario_nome'))
+
 # Tela 3: Confirmação e Emissão do Termo
 @app.route('/confirmacao/<int:id>')
 def confirmacao(id):
@@ -341,4 +370,4 @@ def service_worker():
     return app.send_static_file('sw.js')
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=5002)
