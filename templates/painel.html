@@ -58,19 +58,29 @@
             color: white;
         }
 
+        /* Nome do usuário em negrito */
+        .user-info span {
+            font-weight: bold;
+        }
+
+        /* Botão Sair menor, mais quadrado e com cantos levemente arredondados */
         .btn-sair {
             background-color: white;
             color: #4A55A2;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 6px 14px;
+            border-radius: 6px; /* Cantos levemente arredondados (estilo quadrado moderno) */
             text-decoration: none;
             font-weight: bold;
-            font-size: 14px;
-            min-height: 44px;
-            display: flex;
+            font-size: 13px;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            transition: background-color 0.2s;
+        }
+
+        .btn-sair:hover {
+            background-color: #f0f0f0;
         }
 
         .container {
@@ -202,7 +212,6 @@
             }
             .btn-sair {
                 padding: 4px 10px;
-                min-height: 36px;
                 font-size: 12px;
             }
         }
