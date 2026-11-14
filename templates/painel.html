@@ -30,28 +30,34 @@
             color: #333;
         }
         
-        //* Header com Logo e Usuário maiores e proporcionais */
+        /* Header com a barra azul garantida */
         .header-app {
             background-color: #4A55A2;
             color: white;
-            padding: 15px 25px; /* Aumento leve da altura da barra */
+            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            width: 100%;
+            box-sizing: border-box;
         }
+        
+        /* Tamanho ideal para o logo na barra azul */
         .header-logo img {
-            max-height: 110px; /* Aumento de tamanho para ficar bem visível e legível */
+            max-height: 75px;
             width: auto;
             display: block;
-            border-radius: 6px; /* Arredonda levemente as bordas da bordinha branca se quiser */
         }
+
         .user-info {
             font-size: 14px;
             display: flex;
             align-items: center;
             gap: 12px;
+            color: white;
         }
+
         .btn-sair {
             background-color: white;
             color: #4A55A2;
@@ -66,11 +72,13 @@
             justify-content: center;
             box-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
+
         .container {
             max-width: 600px;
             margin: 20px auto;
             padding: 0 15px;
         }
+
         /* Botões de Ação Principais (Padrão Verde Canva) */
         .btn-novo {
             background-color: #00C853;
@@ -90,6 +98,7 @@
         .btn-novo:hover {
             background-color: #00b048;
         }
+
         /* Barra de Pesquisa */
         .search-box {
             position: relative;
@@ -113,6 +122,7 @@
             transform: translateY(-50%);
             color: #888;
         }
+
         /* Cards de Animais */
         .animal-card {
             background: white;
@@ -141,7 +151,8 @@
         .animal-details p {
             margin: 3px 0;
         }
-        /* Badges de Status inspiradas no protótipo */
+
+        /* Badges de Status */
         .badge {
             display: inline-block;
             padding: 4px 10px;
@@ -181,9 +192,9 @@
         .action-excluir { color: #c62828; background: #ffebee; }
 
         /* Ajustes Responsivos para Dispositivos Móveis */
-    @media (max-width: 768px) {
+        @media (max-width: 768px) {
             .header-logo img {
-                max-height: 75px; /* Tamanho excelente e proporcional para telas de celular */
+                max-height: 60px;
             }
             .user-info {
                 font-size: 12px;
@@ -195,18 +206,12 @@
                 font-size: 12px;
             }
         }
-            .btn-sair {
-                padding: 4px 10px;
-                min-height: 36px;
-                font-size: 12px;
-            }
-        }
     </style>
 </head>
 <body>
 
     <div class="header-app">
-        <!-- Logo Oficial Substituindo o Texto -->
+        <!-- Logo Oficial na Barra Azul -->
         <div class="header-logo">
             <img src="{{ url_for('static', filename='logo.png') }}" alt="Coletivo Solidário Animal">
         </div>
@@ -220,7 +225,7 @@
         <!-- Botão principal de cadastro de animal -->
         <a href="{{ url_for('cadastro') }}" class="btn-novo">+ Novo Cadastro de Animal</a>
         
-        <!-- Botão de Cadastro de Novo Lar Temporário (padronizado em verde) -->
+        <!-- Botão de Cadastro de Novo Lar Temporário -->
         <a href="{{ url_for('novo_lar') }}" class="btn-novo">+ Cadastrar Novo Lar Temporário</a>
 
         <!-- Barra de Pesquisa em Tempo Real -->
