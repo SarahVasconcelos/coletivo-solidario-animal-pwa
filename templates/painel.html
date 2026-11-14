@@ -30,22 +30,20 @@
             color: #333;
         }
         
-        /* Header Inspirado no Canva */
+        /* Header com Logo e Usuário */
         .header-app {
             background-color: #4A55A2;
             color: white;
-            padding: 15px 20px;
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        .header-app h1 {
-            font-size: 18px;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .header-logo img {
+            max-height: 55px;
+            width: auto;
+            display: block;
         }
         .user-info {
             font-size: 14px;
@@ -183,8 +181,8 @@
 
         /* Ajustes Responsivos para Dispositivos Móveis */
         @media (max-width: 768px) {
-            .header-app h1 {
-                font-size: 15px !important;
+            .header-logo img {
+                max-height: 45px;
             }
             .user-info {
                 font-size: 12px;
@@ -201,7 +199,10 @@
 <body>
 
     <div class="header-app">
-        <h1>🐾 Coletivo Solidário Animal</h1>
+        <!-- Logo Oficial Substituindo o Texto -->
+        <div class="header-logo">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Coletivo Solidário Animal">
+        </div>
         <div class="user-info">
             <span>{{ usuario }}</span>
             <a href="{{ url_for('logout') }}" class="btn-sair">Sair</a>
