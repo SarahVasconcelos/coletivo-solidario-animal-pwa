@@ -14,4 +14,4 @@
 * **Versionamento & CI:** Git, GitHub, GitHub Actions.
 
 ## 👥 Persona & Contexto
-Atendimento prioritário às demandas operacionais da voluntária Julia e da rede de protetores de Embu das Artes e Capão Redondo.
+Atendimento prioritário às demandas operacionais do pequeno grupo protetores de Embu das Artes e Capão Redondo.
