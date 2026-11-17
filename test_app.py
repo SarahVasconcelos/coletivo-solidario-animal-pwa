@@ -5,7 +5,7 @@ import sqlite3
 
 @pytest.fixture
 def client():
-    """Configura o cliente de testes do Flask e garante um banco limpo."""
+    # Configura o cliente de testes do Flask e garante um banco limpo.
     app.config['TESTING'] = True
     app.config['WTF_CSRF_ENABLED'] = False
     init_db()
@@ -26,26 +26,26 @@ def client():
         yield client
 
 def login_helper(client):
-    """Função auxiliar para autenticar nos testes protegidos."""
+    # Função auxiliar para autenticar nos testes protegidos.
     return client.post('/login', data={
         'email': 'voluntario@coletivo.org',
         'senha': 'Voluntario123'
     }, follow_redirects=True)
 
 def test_manifest_json(client):
-    """Testa a rota do PWA Manifest."""
+    # Testa a rota do PWA Manifest.
     res = client.get('/manifest.json')
     assert res.status_code == 200
     data = res.get_json()
-    assert data['name'] == "Coletivo Solidario Animal"
+    assert data['name'] == "Coletivo Solidário Animal"
 
 def test_index_redirect(client):
-    """Testa se a raiz redireciona para login."""
+    # Testa se a raiz redireciona para login.
     res = client.get('/', follow_redirects=False)
     assert res.status_code == 302
 
 def test_login_sucesso_e_falha(client):
-    """Testa o fluxo de login."""
+    # Testa o fluxo de login.
     res_fail = client.post('/login', data={
         'email': 'errado@coletivo.org',
         'senha': 'errado'
@@ -57,7 +57,7 @@ def test_login_sucesso_e_falha(client):
     assert res_sucesso.status_code == 200
 
 def test_painel_protegido_e_aberto(client):
-    """Testa o acesso ao painel."""
+    # Testa o acesso ao painel.
     res_sem_login = client.get('/painel', follow_redirects=False)
     assert res_sem_login.status_code == 302
 
@@ -66,13 +66,12 @@ def test_painel_protegido_e_aberto(client):
     assert res_com_login.status_code == 200
 
 def test_fluxo_crud_animal(client):
-    """Testa o ciclo de vida completo de um animal: Cadastro, Confirmação, Termo, Edição e Exclusão."""
+    # Testa o ciclo de vida completo de um animal: Cadastro, Confirmação, Termo, Edição e Exclusão.
     login_helper(client)
 
     res_get_cad = client.get('/cadastro')
     assert res_get_cad.status_code == 200
 
-    # Usando 'id_lar' exatamente como o app.py espera
     data_cadastro = {
         'nome': 'Bidu Teste',
         'especie': 'Cachorro',
@@ -134,14 +133,48 @@ def test_fluxo_crud_animal(client):
         assert res_exc.status_code == 200
 
 def test_termo_animal_inexistente(client):
-    """Testa animal inexistente gerando 404."""
+    # Testa animal inexistente gerando 404.
     login_helper(client)
     res = client.get('/termo/99999')
     assert res.status_code == 404
 
 def test_logout(client):
-    """Testa o fluxo de logout."""
+    # Testa o fluxo de logout.
     login_helper(client)
     res = client.get('/logout', follow_redirects=True)
     assert res.status_code == 200
+
+def test_cadastro_novo_lar(client):
+    # Testa a rota /novo_lar (GET e POST) e a persistência no SQLite.
+    res_sem_login = client.get('/novo_lar', follow_redirects=False)
+    assert res_sem_login.status_code == 302
+
+    login_helper(client)
+
+    res_get = client.get('/novo_lar')
+    assert res_get.status_code == 200
+
+    data_lar = {
+        'nome_voluntario': 'Ana Paula Teste',
+        'contato_telefone': '(11) 97777-6666',
+        'endereco_bairro': 'Jardim Vista Alegre',
+        'capacidade_maxima': '4',
+        'status_disponibilidade': 'Disponível'
+    }
+    res_post = client.post('/novo_lar', data=data_lar, follow_redirects=True)
+    assert res_post.status_code == 200
+
+    # Verifica diretamente no SQLite se o registro foi gravado corretamente
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT nome_voluntario, capacidade_maxima FROM lar_temporario WHERE nome_voluntario = 'Ana Paula Teste'")
+    lar_salvo = cursor.fetchone()
     
+    # Limpa o registro de teste para não sujar o banco
+    cursor.execute("DELETE FROM lar_temporario WHERE nome_voluntario = 'Ana Paula Teste'")
+    conn.commit()
+    conn.close()
+
+    assert lar_salvo is not None
+    assert lar_salvo[0] == 'Ana Paula Teste'
+    assert lar_salvo[1] == 4
